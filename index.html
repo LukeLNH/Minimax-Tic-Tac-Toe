@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script src="logic.js" type = "module" defer></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class = "turn-message" id = "turn-message"> </div>
+    <div class = "board x" id = "board">
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+    </div>
+
+    <!--Screen to select who to play against-->
+    <div class = "start-menu" id = "start-menu">
+        <div id = "menu-text">Welcome to Tic Tac Toe!</div>
+        <button class = "against-irl-player" id = "against-irl-player"> Play against a friend!</button>
+        <button class = "against-bot-first" id = "against-bot-first"> Play against the computer, I go first!</button>
+        <button class = "against-bot-second" id = "against-bot-second"> Play against the computer, computer goes first!</button>
+    </div>
+
+
+    <!-- screen for when someone wins-->
+    <div class="winning-message" id = "winning-message">
+        <div id = "message-text"> </div>
+        <button class = "new-game-button" id = "new-game-button"> New Game </button>
+    </div>
+</body>
+</html>

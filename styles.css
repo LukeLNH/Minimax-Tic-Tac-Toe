@@ -1,0 +1,238 @@
+/* select everything in the page, set its box size to 
+the same size*/
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+
+/*set the margin of all elements in body to 0 (remove 
+margins) so putting in the winning screen is easier*/
+body {
+    margin: 0;
+}
+
+/*selecting the styles.css file itself, use to declare
+global variables */
+:root {
+    --cell-size: 100px;
+    --mark-size: calc(var(--cell-size) * 0.9); 
+    /*mark-size is the sie of the X and Os*/
+}
+
+.turn-message {
+    font-size: 3rem;
+    color: black;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 90px;
+}
+
+/*board is the div element around all the cells*/
+.board {
+    width: 100vw; /*viewport width, viewport height */
+    height: 100vh;
+    display: grid; /*turns the cells inside into a grid 
+    to later turn into 3x3 grid*/
+
+    justify-content: center;
+    align-content: center;
+    /*the two lines above align all the CELLS to the center
+    of the screen*/
+
+    justify-items: center;
+    align-items: center;
+    /*these lines align the items INSIDE THE CELL to the
+    center of the CELL*/
+
+    grid-template-columns: repeat(3, auto);
+    max-height: calc(var(--cell-size) * 3 + 20px);
+}
+
+.cell {
+    width: var(--cell-size); /*declared in :root*/
+    height: var(--cell-size);
+    /*background-color: blue;*/
+    border: 1px solid black;
+    
+    display: flex; /*to display the content inside the cells*/
+    justify-content: center;
+    align-items: center;
+    /* position: relative; */
+
+    cursor: pointer;
+    /*so that the cursor changes to the select thing*/
+
+
+}
+
+/*removing the outer borders of the board for 
+aesthetic purposes*/
+
+.cell:nth-child(1),
+.cell:nth-child(2),
+.cell:nth-child(3) {
+    border-top: none;
+}
+
+.cell:nth-child(7),
+.cell:nth-child(8),
+.cell:nth-child(9) {
+    border-bottom: none;
+}
+
+.cell:nth-child(3n + 1) {
+    border-left: none;
+}
+
+.cell:nth-child(3n + 3) {
+    border-right: none;
+}
+
+/*the board itself is done, now for the Xs and Os*/
+
+
+
+/*stratey for Xs: will use cell.x::before and cell.x::after
+to each make 2 black "bars". Will then rotate the bars to
+form the X*/
+
+/*strategy for Os: similar to Xs, but will make circles 
+using border-radius instead of bars. Will have 2 circles,
+a black circle behind and a white circle in front*/
+
+/*strategy for hover: whoever's turn it is, the board class
+ will be updated to either board.x or board.o. Other than
+ that, draw the same Xs and Os, just with a different color
+ (light grey)*/
+
+.cell.x::before,
+.cell.x::after,
+.board.x .cell:not(.x):not(.o):hover::before,
+.board.x .cell:not(.x):not(.o):hover::after {
+    content: ""; /*an empty string, so the before and after
+    will render*/
+    position: absolute;
+    width: calc(var(--mark-size) * 0.15);
+    height: var(--mark-size);
+    background-color: black;
+}
+
+.cell.x::before,
+.board.x .cell:not(.x):not(.o):hover::before {
+    transform: rotate(45deg);
+}
+.cell.x::after,
+.board.x .cell:not(.x):not(.o):hover::after {
+    transform: rotate(-45deg);
+}
+
+/*separating the colors out*/
+/* .cell.x::before,
+.cell.x::after {
+    background-color: black;
+} */
+
+.board.x .cell:not(.x):not(.o):hover::before,
+.board.x .cell:not(.x):not(.o):hover::after {
+    background-color: lightgray;
+}
+
+.cell.o::before,
+.cell.o::after,
+.board.o .cell:not(.x):not(.o):hover::before,
+.board.o .cell:not(.x):not(.o):hover::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+}
+
+.cell.o::before,
+.board.o .cell:not(.x):not(.o):hover::before {
+    width: var(--mark-size);
+    height: var(--mark-size);
+    background-color: black;
+
+}
+
+/* .cell.o::before {
+    background-color: black;
+} */
+
+.board.o .cell:not(.x):not(.o):hover::before {
+    background-color: lightgray;
+}
+
+.cell.o::after,
+.board.o .cell:not(.x):not(.o):hover::after {
+    width: calc(var(--mark-size) * 0.75);
+    height: calc(var(--mark-size) * 0.75);
+    background-color: white;
+}
+
+
+
+.cell.x, .cell.o {
+    cursor: not-allowed;
+    /*so the player can't click on an unavailable square*/
+}
+
+
+.winning-message,
+.start-menu {
+
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: none; /*winning message does not appear
+    by default. Will have a method make the screen appear*/
+    flex-direction: column; /*stacks content vertically*/
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0, 0.86);
+    color: white;
+    font-size: 6rem;
+}
+
+
+/*method to make the winning screen show*/
+.winning-message.show {
+    display: flex;
+}
+
+.new-game-button{
+    font-size: 2rem;
+    background-color: white;
+    border: 1px solid black;
+    cursor: pointer;
+    padding: .25em .5em;
+}
+
+.new-game-button:hover {
+    color: white;
+    background-color: black;
+    border: 1px solid white;
+}
+
+.start-menu {
+    font-size: 4rem;
+    display: flex;
+}
+
+.start-menu.hide {
+    display: none;
+}
+
+.against-irl-player,
+.against-bot-first,
+.against-bot-second {
+    font-size: 1rem;
+    width: 25em;
+    border: 1px solid black;
+    padding: .25em .5em;
+    cursor: pointer;
+    color: white;
+    background-color: black;
+    border: 1px solid white;
+}
+
